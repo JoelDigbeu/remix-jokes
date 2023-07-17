@@ -1,13 +1,36 @@
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
 async function seed() {
+  const user = await createDefaultUser()
+
   await Promise.all(
-    getJokes().map((joke) => prisma.joke.create({ data: joke })),
+    getJokes().map((joke) =>
+      prisma.joke.create({
+        data: {
+          ...joke,
+          jokester: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      }),
+    ),
   )
 
   console.log(`Database has been seeded. 🌱`)
+}
+
+async function createDefaultUser() {
+  const userData = {
+    username: 'jowell',
+    passwordHash: await bcrypt.hash('azertyuiop', 10),
+  }
+
+  return prisma.user.create({ data: userData })
 }
 
 seed()
