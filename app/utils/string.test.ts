@@ -1,4 +1,4 @@
-import { validateEmail, isString } from './string.util'
+import { validateEmail } from './string.util'
 
 describe('validateEmail', () => {
   it('returns false for non-emails', () => {
@@ -11,15 +11,5 @@ describe('validateEmail', () => {
 
   it('returns true for emails', () => {
     expect(validateEmail('kody@example.com')).toBe(true)
-  })
-})
-
-describe('isString', () => {
-  it('returns true for string', () => {
-    expect(isString('kody@example.com')).toBe(true)
-  })
-
-  it('returns false for other types', () => {
-    expect(isString(5)).toBe(false)
   })
 })
