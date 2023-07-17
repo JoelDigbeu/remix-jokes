@@ -21,10 +21,12 @@ export async function login({ password, username }: AuthForm) {
 }
 
 export async function register({ password, username }: AuthForm) {
-  return prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       username,
       passwordHash: await bcrypt.hash(password, 10),
     },
   })
+
+  return { id: user.id, username }
 }
