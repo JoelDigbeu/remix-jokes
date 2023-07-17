@@ -61,9 +61,20 @@ export default function JokeRoute() {
       <Link to=".">"{joke.name}" Permalink</Link>
       {isOwner ? (
         <form method="post">
-          <button className="button" name="intent" type="submit" value="delete">
-            Delete
-          </button>
+          <div>
+            <Link to="edit" className="button mr-2 mt-4">
+              {' '}
+              Update joke
+            </Link>
+            <button
+              className="button"
+              name="intent"
+              type="submit"
+              value="delete"
+            >
+              Delete
+            </button>
+          </div>
         </form>
       ) : null}
     </div>

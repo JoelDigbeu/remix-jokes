@@ -12,13 +12,13 @@ import {
 } from '@remix-run/react'
 import type { PropsWithChildren } from 'react'
 
-import stylesheet from '~/tailwind.css'
+import tailwindStylesHref from './tailwind.css'
 import globalLargeStylesUrl from '~/styles/global-large.css'
 import globalMediumStylesUrl from '~/styles/global-medium.css'
 import globalStylesUrl from '~/styles/global.css'
 
 export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: stylesheet },
+  { rel: 'stylesheet', href: tailwindStylesHref },
   { rel: 'stylesheet', href: globalStylesUrl },
   {
     rel: 'stylesheet',
