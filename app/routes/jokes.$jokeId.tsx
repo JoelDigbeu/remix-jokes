@@ -26,7 +26,7 @@ export const loader = async ({ params, request }: LoaderArgs) => {
     })
   }
 
-  return json({ joke, currentUserId })
+  return json({ joke, isOwner: currentUserId === joke.jokesterId })
 }
 
 export const action = async ({ params, request }: ActionArgs) => {
@@ -52,14 +52,14 @@ export const action = async ({ params, request }: ActionArgs) => {
 }
 
 export default function JokeRoute() {
-  const { joke, currentUserId } = useLoaderData<typeof loader>()
+  const { joke, isOwner } = useLoaderData<typeof loader>()
 
   return (
     <div>
       <p>Here's your hilarious joke:</p>
       <p>{joke.content}</p>
       <Link to=".">"{joke.name}" Permalink</Link>
-      {currentUserId === joke.jokesterId ? (
+      {isOwner ? (
         <form method="post">
           <button className="button" name="intent" type="submit" value="delete">
             Delete
