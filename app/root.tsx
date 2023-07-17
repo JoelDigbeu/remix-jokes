@@ -8,6 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
   useRouteError,
+  isRouteErrorResponse,
 } from '@remix-run/react'
 import type { PropsWithChildren } from 'react'
 
@@ -42,10 +43,11 @@ function Document({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
+        <title>{title}</title>
         <Links />
       </head>
       <body className="h-full">
-        <Outlet />
+        {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -64,6 +66,18 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <Document title={`${error.status} ${error.statusText}`}>
+        <div className="error-container">
+          <h1>
+            {error.status} {error.statusText}
+          </h1>
+        </div>
+      </Document>
+    )
+  }
 
   const errorMessage = error instanceof Error ? error.message : 'Unknown error'
 

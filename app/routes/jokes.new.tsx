@@ -1,5 +1,15 @@
-import { redirect, type ActionArgs } from '@remix-run/node'
-import { useActionData } from '@remix-run/react'
+import {
+  redirect,
+  type ActionArgs,
+  type LoaderArgs,
+  json,
+} from '@remix-run/node'
+import {
+  Link,
+  isRouteErrorResponse,
+  useActionData,
+  useRouteError,
+} from '@remix-run/react'
 import { prisma, badRequest, requireUserId } from '~/utils'
 
 function validateJokeContent(content: string) {
@@ -12,6 +22,12 @@ function validateJokeName(name: string) {
   if (name.length < 3) {
     return "That joke's name is too short"
   }
+}
+
+export const loader = async ({ request }: LoaderArgs) => {
+  await requireUserId(request)
+
+  return json({})
 }
 
 export const action = async ({ request }: ActionArgs) => {
@@ -113,6 +129,17 @@ export default function NewJokeRoute() {
 }
 
 export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error) && error.status === 401) {
+    return (
+      <div className="error-container">
+        <p>You must be logged in to create a joke.</p>
+        <Link to="/login">Login</Link>
+      </div>
+    )
+  }
+
   return (
     <div className="error-container">
       Something unexpected went wrong. Sorry about that.
