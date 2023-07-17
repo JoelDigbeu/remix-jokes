@@ -2,12 +2,12 @@ import bcrypt from 'bcryptjs'
 
 import { prisma } from '~/utils/db.server'
 
-type LoginForm = {
+type AuthForm = {
   password: string
   username: string
 }
 
-export async function login({ password, username }: LoginForm) {
+export async function login({ password, username }: AuthForm) {
   const user = await prisma.user.findUnique({
     where: { username },
   })
@@ -18,4 +18,13 @@ export async function login({ password, username }: LoginForm) {
   if (!isCorrectPassword) return null
 
   return { id: user.id, username }
+}
+
+export async function register({ password, username }: AuthForm) {
+  return prisma.user.create({
+    data: {
+      username,
+      passwordHash: await bcrypt.hash(password, 10),
+    },
+  })
 }

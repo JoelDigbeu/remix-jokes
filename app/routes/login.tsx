@@ -1,6 +1,6 @@
 import type { ActionArgs, LinksFunction } from '@remix-run/node'
 import { Link, useActionData, useSearchParams } from '@remix-run/react'
-import { prisma, badRequest, login, createUserSession } from '~/utils'
+import { prisma, badRequest, login, createUserSession, register } from '~/utils'
 
 import stylesUrl from '~/styles/login.css'
 
@@ -86,13 +86,10 @@ export const action = async ({ request }: ActionArgs) => {
           formError: `User with username ${username} already exists`,
         })
       }
-      // create the user
-      // create their session and redirect to /jokes
-      return badRequest({
-        fieldErrors: null,
-        fields,
-        formError: 'Not implemented',
-      })
+
+      const user = await register({ password, username })
+
+      return createUserSession({ request, redirectTo, userId: user.id })
     }
 
     default: {
