@@ -1,6 +1,6 @@
 import type { ActionArgs, LinksFunction } from '@remix-run/node'
 import { Link, useActionData, useSearchParams } from '@remix-run/react'
-import { prisma, badRequest, login } from '~/utils'
+import { prisma, badRequest, login, createUserSession } from '~/utils'
 
 import stylesUrl from '~/styles/login.css'
 
@@ -21,7 +21,7 @@ function validatePassword(password: string) {
 }
 
 function validateUrl(url: string) {
-  const urls = ['/jokes', '/', 'https://remix.run']
+  const urls = ['/jokes', '/']
 
   return urls.includes(url) ? url : '/jokes'
 }
@@ -70,6 +70,8 @@ export const action = async ({ request }: ActionArgs) => {
           formError: 'Username/Password combination is incorrect',
         })
       }
+
+      return createUserSession({ request, redirectTo, userId: user.id })
     }
 
     case 'register': {
