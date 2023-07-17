@@ -2,7 +2,7 @@ import type { ActionArgs, LinksFunction } from '@remix-run/node'
 import { Link, useActionData, useSearchParams } from '@remix-run/react'
 
 import stylesUrl from '~/styles/login.css'
-import { prisma } from '~/db.server'
+import { prisma } from '~/utils/db.server'
 import { badRequest } from '~/utils'
 import { login } from '~/models'
 

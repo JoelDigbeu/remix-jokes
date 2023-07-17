@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 
-import { prisma } from '~/db.server'
+import { prisma } from '~/utils/db.server'
 
 type LoginForm = {
   password: string

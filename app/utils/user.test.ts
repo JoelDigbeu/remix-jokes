@@ -1,4 +1,4 @@
-import { validateEmail } from './string.util'
+import { validateEmail } from './user'
 
 describe('validateEmail', () => {
   it('returns false for non-emails', () => {
