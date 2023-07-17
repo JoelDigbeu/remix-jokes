@@ -9,7 +9,13 @@ export const links: LinksFunction = () => [
 ]
 
 export const loader = async () => {
-  return json({ jokes: await prisma.joke.findMany() })
+  return json({
+    jokes: await prisma.joke.findMany({
+      orderBy: { createdAt: 'desc' },
+      select: { id: true, name: true },
+      take: 5,
+    }),
+  })
 }
 
 export default function JokesRoute() {
