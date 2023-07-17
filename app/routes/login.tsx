@@ -89,6 +89,14 @@ export const action = async ({ request }: ActionArgs) => {
 
       const user = await register({ password, username })
 
+      if (!user) {
+        return badRequest({
+          fieldErrors: null,
+          fields,
+          formError: 'Something went wrong trying to create a new user.',
+        })
+      }
+
       return createUserSession({ request, redirectTo, userId: user.id })
     }
 
