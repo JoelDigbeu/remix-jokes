@@ -1,7 +1,27 @@
-import type { V2_MetaFunction } from '@remix-run/node'
+import type { LinksFunction } from '@remix-run/node'
+import { Link } from '@remix-run/react'
 
-export const meta: V2_MetaFunction = () => [{ title: 'Remix Jokes' }]
+import stylesUrl from '~/styles/index.css'
 
-export default function Index() {
-  return <div>Hello Index Route</div>
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesUrl },
+]
+
+export default function IndexRoute() {
+  return (
+    <div className="container">
+      <div className="content">
+        <h1>
+          Remix <span>Jokes!</span>
+        </h1>
+        <nav>
+          <ul>
+            <li>
+              <Link to="jokes">Read Jokes</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  )
 }
