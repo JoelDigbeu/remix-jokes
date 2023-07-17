@@ -1,10 +1,8 @@
 import type { ActionArgs, LinksFunction } from '@remix-run/node'
 import { Link, useActionData, useSearchParams } from '@remix-run/react'
+import { prisma, badRequest, login } from '~/utils'
 
 import stylesUrl from '~/styles/login.css'
-import { prisma } from '~/utils/db.server'
-import { badRequest } from '~/utils'
-import { login } from '~/models'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },

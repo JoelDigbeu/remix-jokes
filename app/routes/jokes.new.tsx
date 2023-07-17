@@ -1,7 +1,6 @@
 import { redirect, type ActionArgs } from '@remix-run/node'
 import { useActionData } from '@remix-run/react'
-import { prisma } from '~/utils/db.server'
-import { badRequest } from '~/utils'
+import { prisma, badRequest } from '~/utils'
 
 function validateJokeContent(content: string) {
   if (content.length < 10) {

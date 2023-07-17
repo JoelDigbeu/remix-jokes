@@ -1,6 +1,6 @@
 import { json } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import { prisma } from '~/utils/db.server'
+import { prisma } from '~/utils'
 
 export const loader = async () => {
   const count = await prisma.joke.count()

@@ -1,8 +1,8 @@
 import { Link, Outlet, useLoaderData } from '@remix-run/react'
 import { json, type LinksFunction } from '@remix-run/node'
+import { prisma } from '~/utils'
 
 import stylesUrl from '~/styles/jokes.css'
-import { prisma } from '~/utils/db.server'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },
