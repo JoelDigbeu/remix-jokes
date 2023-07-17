@@ -1,11 +1,16 @@
 import { Link, Outlet } from '@remix-run/react'
-import type { LinksFunction } from '@remix-run/node'
+import { json, type LinksFunction, type LoaderFunction } from '@remix-run/node'
 
 import stylesUrl from '~/styles/jokes.css'
+import { Jokes } from '~/models'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesUrl },
 ]
+
+export const loader: LoaderFunction = async () => {
+  return json({ jokes: await Jokes.findMany() })
+}
 
 export default function JokesRoute() {
   return (
