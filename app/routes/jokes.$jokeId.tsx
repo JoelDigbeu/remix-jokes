@@ -6,14 +6,13 @@ import {
   type V2_MetaFunction,
 } from '@remix-run/node'
 import {
-  Link,
   useLoaderData,
   useParams,
   isRouteErrorResponse,
   useRouteError,
-  Form,
 } from '@remix-run/react'
 import { getUserId, prisma } from '~/utils'
+import { JokeDisplay } from '~/components'
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
@@ -71,31 +70,7 @@ export const action = async ({ params, request }: ActionArgs) => {
 export default function JokeRoute() {
   const { joke, isOwner } = useLoaderData<typeof loader>()
 
-  return (
-    <div>
-      <p>Here's your hilarious joke:</p>
-      <p>{joke.content}</p>
-      <Link to=".">"{joke.name}" Permalink</Link>
-      {isOwner ? (
-        <Form method="post">
-          <div>
-            <Link to="edit" className="button mr-2 mt-4">
-              {' '}
-              Update joke
-            </Link>
-            <button
-              className="button"
-              name="intent"
-              type="submit"
-              value="delete"
-            >
-              Delete
-            </button>
-          </div>
-        </Form>
-      ) : null}
-    </div>
-  )
+  return <JokeDisplay isOwner={isOwner} joke={joke} />
 }
 
 export function ErrorBoundary() {
