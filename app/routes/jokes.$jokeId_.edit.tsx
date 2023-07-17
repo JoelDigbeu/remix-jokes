@@ -5,7 +5,6 @@ import {
   json,
 } from '@remix-run/node'
 import {
-  Link,
   isRouteErrorResponse,
   useActionData,
   useLoaderData,
@@ -27,7 +26,7 @@ function validateJokeName(name: string) {
 }
 
 export const loader = async ({ params, request }: LoaderArgs) => {
-  await requireUserId(request)
+  const currentUserId = await requireUserId(request)
 
   const joke = await prisma.joke.findUnique({
     where: { id: params.jokeId },
@@ -38,6 +37,9 @@ export const loader = async ({ params, request }: LoaderArgs) => {
       status: 404,
     })
   }
+
+  if (currentUserId !== joke.jokesterId)
+    throw new Response("You can't update this joke", { status: 401 })
 
   return json({ joke })
 }
@@ -159,8 +161,7 @@ export function ErrorBoundary() {
     if (error.status === 401) {
       return (
         <div className="error-container">
-          <p>You must be logged in to create a joke.</p>
-          <Link to="/login">Login</Link>
+          <p>{error.data}</p>
         </div>
       )
     }
