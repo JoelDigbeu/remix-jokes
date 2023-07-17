@@ -11,6 +11,7 @@ import {
   useParams,
   isRouteErrorResponse,
   useRouteError,
+  Form,
 } from '@remix-run/react'
 import { getUserId, prisma } from '~/utils'
 
@@ -76,7 +77,7 @@ export default function JokeRoute() {
       <p>{joke.content}</p>
       <Link to=".">"{joke.name}" Permalink</Link>
       {isOwner ? (
-        <form method="post">
+        <Form method="post">
           <div>
             <Link to="edit" className="button mr-2 mt-4">
               {' '}
@@ -91,7 +92,7 @@ export default function JokeRoute() {
               Delete
             </button>
           </div>
-        </form>
+        </Form>
       ) : null}
     </div>
   )

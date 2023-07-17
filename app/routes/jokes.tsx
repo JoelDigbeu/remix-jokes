@@ -1,4 +1,4 @@
-import { Link, Outlet, useLoaderData } from '@remix-run/react'
+import { Form, Link, Outlet, useLoaderData } from '@remix-run/react'
 
 import { json, type LoaderArgs, type LinksFunction } from '@remix-run/node'
 import { getAuthenticatedUser, prisma } from '~/utils'
@@ -37,11 +37,11 @@ export default function JokesRoute() {
           {currentUser ? (
             <div className="user-info">
               <span>{`Hi ${currentUser.username}`}</span>
-              <form action="/logout" method="post">
+              <Form action="/logout" method="post">
                 <button type="submit" className="button">
                   Logout
                 </button>
-              </form>
+              </Form>
             </div>
           ) : (
             <Link to="/login">Login</Link>
